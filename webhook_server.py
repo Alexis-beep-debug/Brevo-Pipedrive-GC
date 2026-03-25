@@ -167,12 +167,17 @@ async def generate_proposal(request: Request) -> dict:
     if "data" in payload and isinstance(payload["data"], dict):
         payload = payload["data"]
 
-    # Superforms sends nested objects: {"field": {"value": "...", "name": "...", ...}}
-    # Flatten to simple key-value: {"field": "value"}
+    # Superforms sends nested objects: {"field": {"value": "...", "option_label": "...", ...}}
+    # For checkboxes/radios, use option_label (human-readable) instead of value (internal)
+    # Flatten to simple key-value: {"field": "value or option_label"}
     flat_payload: dict[str, Any] = {}
     for key, val in payload.items():
         if isinstance(val, dict) and "value" in val:
-            flat_payload[key] = val["value"]
+            # Use option_label for checkboxes/radios (has the readable text)
+            if "option_label" in val and val["option_label"]:
+                flat_payload[key] = val["option_label"]
+            else:
+                flat_payload[key] = val["value"]
         else:
             flat_payload[key] = val
     payload = flat_payload

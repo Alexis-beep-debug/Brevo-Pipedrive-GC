@@ -245,19 +245,27 @@ def map_superforms_to_template(data: dict) -> dict:
         "service_pflanzenpflege": service_pflanzenpflege,
         "service_duftservice": service_duftservice,
         "intervall_pflanzenpflege": data.get("field_BsHRM", "1x Woche"),
-        # Preise – werden extern berechnet oder manuell eingetragen
-        "gesamtpreis_netto": data.get("gesamtpreis_netto", "–"),
-        "preis_schreibtische": data.get("preis_schreibtische", "–"),
-        "preis_buerostuehle": data.get("preis_buerostuehle", "–"),
-        "preis_muelleimer": data.get("preis_muelleimer", "–"),
-        "preis_schraenke": data.get("preis_schraenke", "–"),
-        "preis_buero_boden": data.get("preis_buero_boden", "–"),
-        "preis_meeting_boden": data.get("preis_meeting_boden", "–"),
-        "preis_weitere_boden": data.get("preis_weitere_boden", "–"),
-        "preis_wc": data.get("preis_wc", "–"),
-        "preis_waschbecken": data.get("preis_waschbecken", "–"),
-        "preis_duschen": data.get("preis_duschen", "–"),
-        "preis_kueche": data.get("preis_kueche", "–"),
+        # Preise – automatisch kalkuliert
+        **_calculate_prices(
+            buero_raeume=buero_raeume,
+            buero_tische=buero_tische,
+            buero_stuehle=buero_stuehle,
+            schraenke=schraenke,
+            buero_qm=buero_qm,
+            meeting_raeume=meeting_raeume,
+            meeting_qm=meeting_qm,
+            kueche_raeume=kueche_raeume,
+            sanitaer_raeume=sanitaer_raeume,
+            sanitaer_wc=sanitaer_wc,
+            sanitaer_waschbecken=sanitaer_waschbecken,
+            sanitaer_duschen=sanitaer_duschen,
+            sanitaer_spiegel=sanitaer_spiegel,
+            sanitaer_pissoir=sanitaer_pissoir,
+            muelleimer=muelleimer,
+            weitere_qm=weitere_qm,
+            intervall_muell=intervall_muell,
+            intervall_sanitaer=intervall_sanitaer,
+        ),
         # Objektbeschreibung (optional, manuell)
         "objektbeschreibung": data.get("objektbeschreibung", ""),
         # Page count
@@ -307,6 +315,87 @@ def generate_and_save(data: dict, filename: str | None = None) -> Path:
     path.write_bytes(pdf_bytes)
     logger.info("Saved PDF to %s", path)
     return path
+
+
+# ── Pricing ──
+
+HOURLY_RATE = 36.0  # €/Stunde netto
+MINUTE_RATE = HOURLY_RATE / 60.0  # €0.60/Minute
+
+# Frequenz → Mal pro Monat
+FREQ_FACTORS = {
+    "1x Woche": 4.33, "2x Woche": 8.67, "3x Woche": 13.0,
+    "4x Woche": 17.33, "5x Woche": 21.67, "6x Woche": 26.0,
+    "7x Woche": 30.33, "1x Monat": 1.0, "1x/3 Monate": 0.333,
+}
+
+
+def _price(count: int | float, minutes: float, freq: str = "1x Woche") -> float:
+    """Calculate monthly price: count × minutes × €0.60 × frequency factor."""
+    factor = FREQ_FACTORS.get(freq, 4.33)
+    return round(count * minutes * MINUTE_RATE * factor, 2)
+
+
+def _fmt(value: float) -> str:
+    """Format price as German number string."""
+    if value <= 0:
+        return "–"
+    return f"{value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def _calculate_prices(
+    buero_raeume: int, buero_tische: int, buero_stuehle: int,
+    schraenke: int, buero_qm: float, meeting_raeume: int, meeting_qm: float,
+    kueche_raeume: int, sanitaer_raeume: int, sanitaer_wc: int,
+    sanitaer_waschbecken: int, sanitaer_duschen: int, sanitaer_spiegel: int,
+    sanitaer_pissoir: int, muelleimer: int, weitere_qm: float,
+    intervall_muell: str, intervall_sanitaer: str,
+) -> dict:
+    """Calculate all prices based on quantities and GC Facility rate card."""
+    freq_muell = intervall_muell or "2x Woche"
+    freq_san = intervall_sanitaer or "5x Woche"
+
+    # Büro
+    p_schreibtische = _price(buero_tische, 1.5, "1x Woche")
+    p_buerostuehle = _price(buero_stuehle, 2.5, "1x Monat")
+    p_muelleimer = _price(muelleimer, 0.5, freq_muell)
+    p_schraenke = _price(schraenke, 2, "1x Woche")
+
+    # Boden (0.24 min/m² Teppich × 2x/Woche or 0.3 min/m² Hart × 5x/Woche)
+    p_buero_boden = _price(buero_qm, 0.24, "2x Woche")
+    p_meeting_boden = _price(meeting_qm, 0.24, "2x Woche")
+    p_weitere_boden = _price(weitere_qm, 0.24, "2x Woche")
+
+    # Sanitär
+    p_wc = _price(sanitaer_wc, 2.5, freq_san)
+    p_waschbecken = _price(sanitaer_waschbecken, 2.5, freq_san)
+    p_duschen = _price(sanitaer_duschen, 10, "1x Woche")
+    p_spiegel = _price(sanitaer_spiegel, 2, freq_san)
+    p_pissoir = _price(sanitaer_pissoir, 2.5, freq_san)
+    sanitaer_gesamt = p_wc + p_waschbecken + p_duschen + p_spiegel + p_pissoir
+
+    # Küche (Küchenzeile 8 min × 5x/Woche)
+    p_kueche = _price(kueche_raeume, 8, "5x Woche")
+
+    # Gesamt
+    gesamt = (p_schreibtische + p_buerostuehle + p_muelleimer + p_schraenke +
+              p_buero_boden + p_meeting_boden + p_weitere_boden +
+              sanitaer_gesamt + p_kueche)
+
+    return {
+        "preis_schreibtische": _fmt(p_schreibtische),
+        "preis_buerostuehle": _fmt(p_buerostuehle),
+        "preis_muelleimer": _fmt(p_muelleimer),
+        "preis_schraenke": _fmt(p_schraenke),
+        "preis_buero_boden": _fmt(p_buero_boden),
+        "preis_meeting_boden": _fmt(p_meeting_boden),
+        "preis_weitere_boden": _fmt(p_weitere_boden),
+        "preis_wc": _fmt(p_wc),
+        "preis_waschbecken": _fmt(p_waschbecken),
+        "preis_duschen": _fmt(p_duschen),
+        "preis_kueche": _fmt(p_kueche),
+        "gesamtpreis_netto": _fmt(gesamt),
+    }
 
 
 # ── Helpers ──
