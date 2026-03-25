@@ -235,9 +235,24 @@ async def download_pdf(document_id: str) -> bytes:
             raise ValueError("No documentFileId returned from Lexoffice")
 
         # Download the PDF
+        dl_headers = _headers()
+        dl_headers["Accept"] = "application/pdf"
         pdf_r = await client.get(
             f"{_BASE}/files/{document_file_id}",
-            headers=_headers(),
+            headers=dl_headers,
         )
         pdf_r.raise_for_status()
+
+        content_type = pdf_r.headers.get("content-type", "")
+        print(f"Lexoffice file content-type: {content_type}, size: {len(pdf_r.content)} bytes", flush=True)
+
+        # If response is JSON with base64, decode it
+        if "json" in content_type:
+            import json
+            data = pdf_r.json()
+            if isinstance(data, str):
+                import base64
+                return base64.b64decode(data)
+            print(f"Lexoffice file JSON keys: {list(data.keys()) if isinstance(data, dict) else 'not a dict'}", flush=True)
+
         return pdf_r.content
