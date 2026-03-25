@@ -248,6 +248,21 @@
     line-height: 1.8;
   }
 
+  /* ── Module rows (2-column layout) ── */
+  .module-row {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 14px;
+  }
+  .module-col {
+    display: table-cell;
+    width: 50%;
+    vertical-align: top;
+    padding-right: 10px;
+  }
+  .module-col:last-child { padding-right: 0; padding-left: 10px; }
+
   /* ── Module cards (Zusatzmodule) ── */
   .module-card {
     border: 1px solid #dce3e8;
@@ -677,73 +692,43 @@
     <div class="section-title">EMPFOHLENE ZUSATZMODULE</div>
     <div class="section-subtitle">Werten Sie Ihr Paket auf. Folgende Leistungen passen perfekt zu Ihrem Objekt:</div>
 
-    <div class="grid-2">
-      {% if service_glasreinigung %}
-      <div class="module-card">
-        <div class="module-header">Glasreinigung</div>
-        <div class="module-body">
-          Streifenfreie Sicht für alle Büros. Inklusive Rahmenpflege.
-          <div class="module-freq">Empfohlen: 1x pro Quartal</div>
-          <div class="module-price">Auf Anfrage</div>
-        </div>
-      </div>
-      {% endif %}
+    {# Collect active modules into a list, then render in 2-column rows #}
+    {% set modules = [] %}
+    {% if service_glasreinigung %}{% set _ = modules.append({"title": "Glasreinigung", "desc": "Streifenfreie Sicht für alle Büros. Inklusive Rahmenpflege.", "freq": "Empfohlen: 1x pro Quartal", "price": "Auf Anfrage"}) %}{% endif %}
+    {% if service_teppichreinigung %}{% set _ = modules.append({"title": "Teppich-Tiefenreinigung", "desc": "Entfernt Laufstraßen und tiefsitzenden Schmutz. Werterhalt für " ~ buero_qm|default('–') ~ " m².", "freq": "Empfohlen: 1x jährlich", "price": "Auf Anfrage"}) %}{% endif %}
+    {% if service_kabelmanagement %}{% set _ = modules.append({"title": "Kabelmanagement", "desc": "Wir ordnen den Kabelsalat unter den " ~ buero_tische|default('–') ~ " Schreibtischen.", "freq": "Einmalige Aktion für Sicherheit", "price": "Nach Aufwand"}) %}{% endif %}
+    {% if service_waescheservice %}{% set _ = modules.append({"title": "Wäscheservice", "desc": "Frische Handtücher und Küchentücher im Austausch-Service.", "freq": "Wöchentlicher Tausch", "price": "Monatspauschale"}) %}{% endif %}
+    {% if service_pflanzenpflege %}{% set _ = modules.append({"title": "Pflanzenpflege", "desc": "Professionelle Pflege Ihrer Büropflanzen – Gießen, Düngen, Blattpflege.", "freq": intervall_pflanzenpflege|default('1x Woche'), "price": "Monatspauschale"}) %}{% endif %}
+    {% if service_duftservice %}{% set _ = modules.append({"title": "Duftservice", "desc": "Professioneller Duftservice im Eingangsbereich für einen positiven ersten Eindruck.", "freq": "Dauerhaft", "price": "Monatspauschale"}) %}{% endif %}
 
-      {% if service_teppichreinigung %}
-      <div class="module-card">
-        <div class="module-header">Teppich-Tiefenreinigung</div>
-        <div class="module-body">
-          Entfernt Laufstraßen und tiefsitzenden Schmutz. Werterhalt für {{ buero_qm|default('–') }} m².
-          <div class="module-freq">Empfohlen: 1x jährlich</div>
-          <div class="module-price">Auf Anfrage</div>
+    {% for i in range(0, modules|length, 2) %}
+    <div class="module-row">
+      <div class="module-col">
+        <div class="module-card">
+          <div class="module-header">{{ modules[i].title }}</div>
+          <div class="module-body">
+            {{ modules[i].desc }}
+            <div class="module-freq">{{ modules[i].freq }}</div>
+            <div class="module-price">{{ modules[i].price }}</div>
+          </div>
         </div>
       </div>
-      {% endif %}
-
-      {% if service_kabelmanagement %}
-      <div class="module-card">
-        <div class="module-header">Kabelmanagement</div>
-        <div class="module-body">
-          Wir ordnen den Kabelsalat unter den {{ buero_tische|default('–') }} Schreibtischen.
-          <div class="module-freq">Einmalige Aktion für Sicherheit</div>
-          <div class="module-price">Nach Aufwand</div>
+      {% if i + 1 < modules|length %}
+      <div class="module-col">
+        <div class="module-card">
+          <div class="module-header">{{ modules[i+1].title }}</div>
+          <div class="module-body">
+            {{ modules[i+1].desc }}
+            <div class="module-freq">{{ modules[i+1].freq }}</div>
+            <div class="module-price">{{ modules[i+1].price }}</div>
+          </div>
         </div>
       </div>
-      {% endif %}
-
-      {% if service_waescheservice %}
-      <div class="module-card">
-        <div class="module-header">Wäscheservice</div>
-        <div class="module-body">
-          Frische Handtücher und Küchentücher im Austausch-Service.
-          <div class="module-freq">Wöchentlicher Tausch</div>
-          <div class="module-price">Monatspauschale</div>
-        </div>
-      </div>
-      {% endif %}
-
-      {% if service_pflanzenpflege %}
-      <div class="module-card">
-        <div class="module-header">Pflanzenpflege</div>
-        <div class="module-body">
-          Professionelle Pflege Ihrer Büropflanzen – Gießen, Düngen, Blattpflege.
-          <div class="module-freq">{{ intervall_pflanzenpflege|default('1x Woche') }}</div>
-          <div class="module-price">Monatspauschale</div>
-        </div>
-      </div>
-      {% endif %}
-
-      {% if service_duftservice %}
-      <div class="module-card">
-        <div class="module-header">Duftservice</div>
-        <div class="module-body">
-          Professioneller Duftservice im Eingangsbereich für einen positiven ersten Eindruck.
-          <div class="module-freq">Dauerhaft</div>
-          <div class="module-price">Monatspauschale</div>
-        </div>
-      </div>
+      {% else %}
+      <div class="module-col"></div>
       {% endif %}
     </div>
+    {% endfor %}
 
     <div class="total-bar" style="margin-top: 24px;">
       <div class="label">INVESTITION FÜR SAUBERE QUALITÄT</div>
