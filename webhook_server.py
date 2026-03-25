@@ -247,12 +247,20 @@ async def generate_proposal(request: Request) -> dict:
         results["lexoffice_contact_id"] = contact_id
         print(f"Lexoffice contact: {contact_id}", flush=True)
 
-        # Lexoffice Angebot erstellen
+        # Lexoffice Angebot erstellen (mit berechnetem Preis)
         if contact_id:
+            # Gesamtpreis aus Template-Daten extrahieren
+            preis_str = template_data.get("gesamtpreis_netto", "0")
+            try:
+                net_total = float(preis_str.replace(".", "").replace(",", ".").replace("–", "0"))
+            except (ValueError, AttributeError):
+                net_total = 0.0
+
             quote = await lx.create_quote(
                 contact_id=contact_id,
                 title="Unterhaltsreinigung",
                 introduction=f"Angebot für die Unterhaltsreinigung am Standort {template_data['objekt_adresse']}.",
+                net_amount=net_total,
             )
             quote_id = quote.get("id", "")
             results["lexoffice_quote_id"] = quote_id
