@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Brand Design Guide – G+C Facility GmbH</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Roboto', sans-serif; color: #464646; font-size: 11pt; line-height: 1.6; background: #fff; }
+
+  @page { size: A4; margin: 0; }
+  .page { width: 210mm; height: 297mm; padding: 0; page-break-after: always; position: relative; overflow: hidden; }
+  .page:last-child { page-break-after: avoid; }
+
+  /* ── Cover ── */
+  .cover { background: #0B426E; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .cover img { height: 120px; margin-bottom: 30px; }
+  .cover h1 { font-family: 'Roboto Slab', serif; font-size: 32pt; font-weight: 700; margin-bottom: 8px; }
+  .cover h2 { font-size: 14pt; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+  .cover .version { font-size: 9pt; color: rgba(255,255,255,0.5); position: absolute; bottom: 30px; }
+
+  /* ── Content pages ── */
+  .content { padding: 40px 50px; }
+  .content h2 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 20pt;
+    font-weight: 700;
+    color: #0B426E;
+    margin-bottom: 6px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #E7515A;
+    margin-bottom: 24px;
+  }
+  .content h3 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 13pt;
+    font-weight: 600;
+    color: #0B426E;
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+  .content p { margin-bottom: 12px; }
+  .content .note { background: #F4F7FA; border-left: 4px solid #0B426E; padding: 14px 18px; border-radius: 4px; font-size: 9.5pt; margin: 16px 0; }
+
+  /* ── Color swatches ── */
+  .color-grid { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+  .swatch { width: 140px; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0; }
+  .swatch-color { height: 80px; }
+  .swatch-info { padding: 10px 12px; font-size: 8.5pt; line-height: 1.6; }
+  .swatch-info strong { display: block; font-size: 9.5pt; margin-bottom: 2px; }
+
+  /* ── Font samples ── */
+  .font-sample { margin: 12px 0 20px; padding: 20px; background: #F4F7FA; border-radius: 8px; }
+  .font-sample .demo { margin-bottom: 8px; }
+  .font-sample .meta { font-size: 8.5pt; color: #6C7A85; }
+
+  /* ── Logo showcase ── */
+  .logo-grid { display: flex; gap: 20px; margin: 16px 0; flex-wrap: wrap; }
+  .logo-box { width: 200px; height: 140px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .logo-box img { max-height: 80px; }
+  .logo-box-label { text-align: center; font-size: 8pt; color: #6C7A85; margin-top: 6px; }
+
+  /* ── Spacing / Do-Don't ── */
+  .do-dont { display: flex; gap: 20px; margin: 16px 0; }
+  .do-dont > div { flex: 1; padding: 16px; border-radius: 8px; font-size: 9pt; }
+  .do-box { background: #e8f5e9; border: 1px solid #1EAF58; }
+  .dont-box { background: #fce4ec; border: 1px solid #E7515A; }
+  .do-box strong { color: #1EAF58; }
+  .dont-box strong { color: #E7515A; }
+
+  /* ── Table ── */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 12px 0; }
+  .spec-table th { background: #0B426E; color: #fff; padding: 8px 12px; text-align: left; }
+  .spec-table td { padding: 8px 12px; border-bottom: 1px solid #e8ecf0; }
+  .spec-table tr:nth-child(even) { background: #F4F7FA; }
+
+  .page-num { position: absolute; bottom: 20px; right: 50px; font-size: 8pt; color: #6C7A85; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SEITE 1: COVER
+     ════════════════════════════════════════════ -->
+<div class="page cover">
+  <img src="https://drive.google.com/uc?export=view&id=1RoInI8le_q6bx2Wo3kScu-229zQ7ZTBo" alt="G+C Facility Logo">
+  <h1>Brand Design Guide</h1>
+  <h2>G+C Facility GmbH</h2>
+  <div class="version">Version 1.0 – März 2026</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SEITE 2: LOGO
+     ════════════════════════════════════════════ -->
+<div class="page">
+  <div class="content">
+    <h2>1. Logo</h2>
+
+    <p>Das G+C Facility Logo besteht aus einem abstrakten Kreuz-Symbol (zwei versetzte L-Formen) und dem Schriftzug "G+C FACILITY GMBH". Das Symbol steht für Verbindung, Zusammenarbeit und professionelle Dienstleistung.</p>
+
+    <h3>Logo-Varianten</h3>
+    <div class="logo-grid">
+      <div>
+        <div class="logo-box" style="background: #0B426E;">
+          <img src="https://drive.google.com/uc?export=view&id=1RoInI8le_q6bx2Wo3kScu-229zQ7ZTBo" alt="Logo weiß auf blau">
+        </div>
+        <div class="logo-box-label">Primär: Weiß auf Dunkelblau</div>
+      </div>
+      <div>
+        <div class="logo-box" style="background: #ffffff; border: 1px solid #e0e0e0;">
+          <img src="https://drive.google.com/uc?export=view&id=1RoInI8le_q6bx2Wo3kScu-229zQ7ZTBo" alt="Logo dunkel auf weiß" style="filter: brightness(0) saturate(100%) invert(20%) sepia(50%) saturate(1500%) hue-rotate(180deg);">
+        </div>
+        <div class="logo-box-label">Sekundär: Dunkelblau auf Weiß</div>
+      </div>
+      <div>
+        <div class="logo-box" style="background: #F4F7FA;">
+          <img src="https://drive.google.com/uc?export=view&id=1RoInI8le_q6bx2Wo3kScu-229zQ7ZTBo" alt="Logo auf hellgrau" style="filter: brightness(0) saturate(100%) invert(20%) sepia(50%) saturate(1500%) hue-rotate(180deg);">
+        </div>
+        <div class="logo-box-label">Auf hellem Hintergrund</div>
+      </div>
+    </div>
+
+    <h3>Schutzzone</h3>
+    <p>Das Logo muss immer von einer Schutzzone umgeben sein, die mindestens der Höhe des Kreuz-Symbols entspricht. Kein anderes Element darf in diese Zone eindringen.</p>
+
+    <h3>Mindestgröße</h3>
+    <p>Die Mindesthöhe des Logos beträgt <strong>24px</strong> (digital) bzw. <strong>8mm</strong> (Print), um die Lesbarkeit zu gewährleisten.</p>
+
+    <div class="do-dont">
+      <div class="do-box">
+        <strong>Do:</strong><br>
+        - Logo auf kontrastreichem Hintergrund verwenden<br>
+        - Ausreichend Freiraum lassen<br>
+        - Offizielle Farbvarianten nutzen
+      </div>
+      <div class="dont-box">
+        <strong>Don't:</strong><br>
+        - Logo verzerren oder drehen<br>
+        - Farben eigenständig ändern<br>
+        - Logo auf unruhigem Hintergrund platzieren
+      </div>
+    </div>
+  </div>
+  <div class="page-num">2</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SEITE 3: FARBEN
+     ════════════════════════════════════════════ -->
+<div class="page">
+  <div class="content">
+    <h2>2. Farbpalette</h2>
+
+    <h3>Primärfarben</h3>
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0B426E;"></div>
+        <div class="swatch-info">
+          <strong>Dunkelblau (Primary)</strong>
+          HEX: #0B426E<br>
+          RGB: 11, 66, 110<br>
+          Verwendung: Header, Hintergründe, Texte
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #E7515A;"></div>
+        <div class="swatch-info">
+          <strong>Rot (Accent/CTA)</strong>
+          HEX: #E7515A<br>
+          RGB: 231, 81, 90<br>
+          Verwendung: Buttons, Akzente, Highlights
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #6C7A85;"></div>
+        <div class="swatch-info">
+          <strong>Grau-Blau (Secondary)</strong>
+          HEX: #6C7A85<br>
+          RGB: 108, 122, 133<br>
+          Verwendung: Subtexte, Beschriftungen
+        </div>
+      </div>
+    </div>
+
+    <h3>Sekundärfarben</h3>
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #1EAF58;"></div>
+        <div class="swatch-info">
+          <strong>Grün (Success)</strong>
+          HEX: #1EAF58<br>
+          RGB: 30, 175, 88<br>
+          Verwendung: Checkmarks, Positivwerte
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #8DCCFF;"></div>
+        <div class="swatch-info">
+          <strong>Hellblau</strong>
+          HEX: #8DCCFF<br>
+          RGB: 141, 204, 255<br>
+          Verwendung: Akzente, Infografiken
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FFB700;"></div>
+        <div class="swatch-info">
+          <strong>Gold/Gelb</strong>
+          HEX: #FFB700<br>
+          RGB: 255, 183, 0<br>
+          Verwendung: Warnungen, Highlights
+        </div>
+      </div>
+    </div>
+
+    <h3>Neutrale Farben</h3>
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #464646;"></div>
+        <div class="swatch-info">
+          <strong>Text (Dark)</strong>
+          HEX: #464646
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #333333;"></div>
+        <div class="swatch-info">
+          <strong>Body Text</strong>
+          HEX: #333333
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #F4F7FA;"></div>
+        <div class="swatch-info">
+          <strong>Hintergrund (Light)</strong>
+          HEX: #F4F7FA
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FFFFFF; border: 1px solid #e0e0e0;"></div>
+        <div class="swatch-info">
+          <strong>Weiß</strong>
+          HEX: #FFFFFF
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Farbverhältnis:</strong> 60% Dunkelblau/Weiß (Hintergrund), 30% Grau-Blau (Text/Struktur), 10% Rot (Akzente/CTAs). Die Akzentfarbe Rot soll sparsam und gezielt eingesetzt werden.
+    </div>
+  </div>
+  <div class="page-num">3</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SEITE 4: TYPOGRAFIE
+     ════════════════════════════════════════════ -->
+<div class="page">
+  <div class="content">
+    <h2>3. Typografie</h2>
+
+    <h3>Primäre Schriftfamilie: Roboto</h3>
+    <div class="font-sample">
+      <div class="demo" style="font-family: 'Roboto', sans-serif; font-weight: 300; font-size: 18pt;">Roboto Light – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Roboto', sans-serif; font-weight: 400; font-size: 18pt;">Roboto Regular – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 18pt;">Roboto Medium – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Roboto', sans-serif; font-weight: 600; font-size: 18pt;">Roboto SemiBold – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 18pt;">Roboto Bold – Aa Bb Cc 123</div>
+      <div class="meta">Verwendung: Fließtext, UI-Elemente, Beschriftungen, Buttons</div>
+    </div>
+
+    <h3>Sekundäre Schriftfamilie: Roboto Slab</h3>
+    <div class="font-sample">
+      <div class="demo" style="font-family: 'Roboto Slab', serif; font-weight: 400; font-size: 18pt;">Roboto Slab Regular – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Roboto Slab', serif; font-weight: 600; font-size: 18pt;">Roboto Slab SemiBold – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Roboto Slab', serif; font-weight: 700; font-size: 18pt;">Roboto Slab Bold – Aa Bb Cc 123</div>
+      <div class="meta">Verwendung: Überschriften, Titel, Seitentitel, Angebotsdokumente</div>
+    </div>
+
+    <h3>Heading-Schrift (Website): Work Sans</h3>
+    <div class="font-sample">
+      <div class="demo" style="font-family: 'Work Sans', sans-serif; font-weight: 500; font-size: 18pt;">Work Sans Medium – Aa Bb Cc 123</div>
+      <div class="demo" style="font-family: 'Work Sans', sans-serif; font-weight: 700; font-size: 18pt;">Work Sans Bold – Aa Bb Cc 123</div>
+      <div class="meta">Verwendung: Website-Überschriften (gc-facility.de)</div>
+    </div>
+
+    <h3>Schriftgrößen-Hierarchie</h3>
+    <table class="spec-table">
+      <tr><th>Element</th><th>Schrift</th><th>Gewicht</th><th>Größe</th></tr>
+      <tr><td>H1 (Haupttitel)</td><td>Roboto Slab</td><td>700 (Bold)</td><td>28–32pt</td></tr>
+      <tr><td>H2 (Seitentitel)</td><td>Roboto Slab</td><td>700 (Bold)</td><td>20–24pt</td></tr>
+      <tr><td>H3 (Abschnittstitel)</td><td>Roboto Slab</td><td>600 (SemiBold)</td><td>13–16pt</td></tr>
+      <tr><td>Fließtext</td><td>Roboto</td><td>400 (Regular)</td><td>10–11pt</td></tr>
+      <tr><td>Beschriftung/Label</td><td>Roboto</td><td>600 (SemiBold)</td><td>7–8pt</td></tr>
+      <tr><td>Button/CTA</td><td>Roboto</td><td>500 (Medium)</td><td>9–10pt</td></tr>
+    </table>
+  </div>
+  <div class="page-num">4</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SEITE 5: GESTALTUNGSELEMENTE
+     ════════════════════════════════════════════ -->
+<div class="page">
+  <div class="content">
+    <h2>4. Gestaltungselemente</h2>
+
+    <h3>Header-Bar</h3>
+    <div style="background: #0B426E; color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; border-radius: 6px; margin: 12px 0;">
+      <span style="font-family: 'Roboto Slab', serif; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 10pt;">Seitentitel</span>
+      <img src="https://drive.google.com/uc?export=view&id=1RoInI8le_q6bx2Wo3kScu-229zQ7ZTBo" alt="Logo" style="height: 28px;">
+    </div>
+    <p style="font-size: 9pt; color: #6C7A85;">Verwendung auf jeder Seite von Angebotsdokumenten. Dunkelblauer Hintergrund, weißer Titel links, Logo rechts.</p>
+
+    <h3>Section Title mit Akzent-Linie</h3>
+    <div style="margin: 12px 0; padding-left: 16px; border-left: 4px solid #E7515A;">
+      <div style="font-family: 'Roboto Slab', serif; font-size: 18pt; font-weight: 700; color: #0B426E;">BEISPIELTITEL</div>
+    </div>
+    <p style="font-size: 9pt; color: #6C7A85;">Rote Akzentlinie (4px) links vom Titel. Verwendung für Hauptüberschriften auf Inhaltsseiten.</p>
+
+    <h3>Info-Cards</h3>
+    <div style="display: flex; gap: 16px; margin: 12px 0;">
+      <div style="flex: 1; border: 1px solid #dce3e8; border-radius: 6px; border-bottom: 3px solid #E7515A; text-align: center; padding: 16px;">
+        <div style="font-family: 'Roboto Slab', serif; font-size: 20pt; font-weight: 700; color: #0B426E;">42</div>
+        <div style="font-size: 7pt; text-transform: uppercase; letter-spacing: 1px; color: #6C7A85;">Beschriftung</div>
+      </div>
+      <div style="flex: 1; border: 1px solid #dce3e8; border-radius: 6px; border-bottom: 3px solid #E7515A; text-align: center; padding: 16px;">
+        <div style="font-family: 'Roboto Slab', serif; font-size: 20pt; font-weight: 700; color: #0B426E;">500 m²</div>
+        <div style="font-size: 7pt; text-transform: uppercase; letter-spacing: 1px; color: #6C7A85;">Fläche</div>
+      </div>
+    </div>
+    <p style="font-size: 9pt; color: #6C7A85;">Karten mit dünnem Rand, roter Akzentlinie unten. Für Kennzahlen und Fakten.</p>
+
+    <h3>Gesamtpreis-Bar</h3>
+    <div style="background: #F4F7FA; border: 2px solid #0B426E; border-radius: 6px; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; margin: 12px 0;">
+      <div style="font-weight: 700; color: #0B426E; font-size: 10pt;">GESAMTBETRAG (NETTO):</div>
+      <div style="font-family: 'Roboto Slab', serif; font-size: 20pt; font-weight: 700; color: #E7515A;">2.480,00 €</div>
+    </div>
+
+    <h3>Buttons / CTA</h3>
+    <div style="display: flex; gap: 12px; margin: 12px 0;">
+      <div style="background: #E7515A; color: #fff; padding: 8px 20px; border-radius: 4px; font-weight: 600; font-size: 9pt;">Primär (Rot)</div>
+      <div style="background: #0B426E; color: #fff; padding: 8px 20px; border-radius: 4px; font-weight: 600; font-size: 9pt;">Sekundär (Blau)</div>
+      <div style="background: #fff; color: #0B426E; padding: 8px 20px; border-radius: 4px; font-weight: 600; font-size: 9pt; border: 2px solid #0B426E;">Outline</div>
+    </div>
+
+    <h3>Closing-Seite</h3>
+    <p>Die letzte Seite eines Dokuments verwendet den dunkelblau Hintergrund mit zentriertem Logo, dem Claim "GEMEINSAM FÜR EIN SAUBERES ERGEBNIS." und Kontaktdaten.</p>
+  </div>
+  <div class="page-num">5</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SEITE 6: KONTAKT & CSS VARIABLEN
+     ════════════════════════════════════════════ -->
+<div class="page">
+  <div class="content">
+    <h2>5. Technische Referenz</h2>
+
+    <h3>CSS Variablen</h3>
+    <table class="spec-table">
+      <tr><th>Variable</th><th>Wert</th><th>Verwendung</th></tr>
+      <tr><td><code>--e-global-color-primary</code></td><td>#0B426E</td><td>Primärfarbe</td></tr>
+      <tr><td><code>--e-global-color-secondary</code></td><td>#6C7A85</td><td>Sekundärtext</td></tr>
+      <tr><td><code>--e-global-color-text</code></td><td>#464646</td><td>Fließtext</td></tr>
+      <tr><td><code>--e-global-color-accent</code></td><td>#E7515A</td><td>Akzent/CTA</td></tr>
+      <tr><td><code>--e-global-color-b6c74b4</code></td><td>#1EAF58</td><td>Grün (Success)</td></tr>
+      <tr><td><code>--e-global-color-edba4cd</code></td><td>#8DCCFF</td><td>Hellblau</td></tr>
+      <tr><td><code>--e-global-color-b68e6db</code></td><td>#FFB700</td><td>Gold/Gelb</td></tr>
+    </table>
+
+    <h3>Elementor Typografie-Variablen</h3>
+    <table class="spec-table">
+      <tr><th>Variable</th><th>Font</th><th>Gewicht</th></tr>
+      <tr><td>Primary Typography</td><td>Roboto</td><td>600</td></tr>
+      <tr><td>Secondary Typography</td><td>Roboto Slab</td><td>400</td></tr>
+      <tr><td>Text Typography</td><td>Roboto</td><td>400</td></tr>
+      <tr><td>Accent Typography</td><td>Roboto</td><td>500</td></tr>
+    </table>
+
+    <h3>Logo-Dateien</h3>
+    <table class="spec-table">
+      <tr><th>Variante</th><th>Format</th><th>Speicherort</th></tr>
+      <tr><td>Weiß auf Blau</td><td>PNG</td><td>Google Drive (ID: 1RoInI8le_q6bx2Wo3kScu-229zQ7ZTBo)</td></tr>
+    </table>
+
+    <h3>Kontakt</h3>
+    <table class="spec-table">
+      <tr><th>Angabe</th><th>Wert</th></tr>
+      <tr><td>Firma</td><td>G+C Facility GmbH</td></tr>
+      <tr><td>Adresse</td><td>Warmbrunnerstraße 4, D-14193 Berlin</td></tr>
+      <tr><td>Telefon</td><td>+49 (0)30 890 68 153</td></tr>
+      <tr><td>Email</td><td>zentrale@gc-facility.de</td></tr>
+      <tr><td>Website</td><td>www.gc-facility.de</td></tr>
+      <tr><td>Standorte</td><td>Berlin, Hamburg, München, Frankfurt am Main</td></tr>
+    </table>
+
+    <div class="note">
+      <strong>Hinweis:</strong> Dieses Brand Design Dokument basiert auf den extrahierten CSS-Variablen und Gestaltungselementen der Website gc-facility.de sowie der Angebotsautomatisierung. Bei Fragen oder Änderungen bitte an die Geschäftsführung wenden.
+    </div>
+  </div>
+  <div class="page-num">6</div>
+</div>
+
+</body>
+</html>
