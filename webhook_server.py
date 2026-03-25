@@ -247,20 +247,14 @@ async def generate_proposal(request: Request) -> dict:
         results["lexoffice_contact_id"] = contact_id
         print(f"Lexoffice contact: {contact_id}", flush=True)
 
-        # Lexoffice Angebot erstellen (mit berechnetem Preis)
+        # Lexoffice Angebot erstellen (mit Einzelposten)
         if contact_id:
-            # Gesamtpreis aus Template-Daten extrahieren
-            preis_str = template_data.get("gesamtpreis_netto", "0")
-            try:
-                net_total = float(preis_str.replace(".", "").replace(",", ".").replace("–", "0"))
-            except (ValueError, AttributeError):
-                net_total = 0.0
-
+            line_items = _build_lexoffice_line_items(template_data)
             quote = await lx.create_quote(
                 contact_id=contact_id,
                 title="Unterhaltsreinigung",
                 introduction=f"Angebot für die Unterhaltsreinigung am Standort {template_data['objekt_adresse']}.",
-                net_amount=net_total,
+                line_items=line_items,
             )
             quote_id = quote.get("id", "")
             results["lexoffice_quote_id"] = quote_id
@@ -334,6 +328,56 @@ async def generate_proposal(request: Request) -> dict:
     )
 
     return {"status": "ok", "results": results}
+
+
+def _build_lexoffice_line_items(td: dict) -> list[dict]:
+    """Build Lexoffice line items from template data with calculated prices."""
+    def _parse_price(s: str) -> float:
+        try:
+            return float(s.replace(".", "").replace(",", ".").replace("–", "0"))
+        except (ValueError, AttributeError):
+            return 0.0
+
+    items = []
+    price_map = [
+        ("Schreibtische", td.get("buero_tische", 0), "Stck", td.get("preis_schreibtische", "–")),
+        ("Bürostühle", td.get("buero_stuehle", 0), "Stck", td.get("preis_buerostuehle", "–")),
+        ("Mülleimer", td.get("muelleimer", 0), "Stck", td.get("preis_muelleimer", "–")),
+        ("Schränke/Regale", td.get("schraenke", 0), "Stck", td.get("preis_schraenke", "–")),
+        ("Büroflächen", td.get("buero_qm", 0), "m²", td.get("preis_buero_boden", "–")),
+        ("Meetingflächen", td.get("meeting_qm", 0), "m²", td.get("preis_meeting_boden", "–")),
+        ("Weitere Flächen", td.get("weitere_qm", 0), "m²", td.get("preis_weitere_boden", "–")),
+        ("WC-Anlagen", td.get("sanitaer_wc", 0), "Stck", td.get("preis_wc", "–")),
+        ("Waschbecken", td.get("sanitaer_waschbecken", 0), "Stck", td.get("preis_waschbecken", "–")),
+        ("Duschen", td.get("sanitaer_duschen", 0), "Stck", td.get("preis_duschen", "–")),
+        ("Küche", td.get("kueche_raeume", 0), "Stck", td.get("preis_kueche", "–")),
+    ]
+
+    for name, qty, unit, price_str in price_map:
+        price = _parse_price(str(price_str))
+        if qty and price > 0:
+            items.append({
+                "type": "custom",
+                "name": f"{name} ({qty} {unit})",
+                "quantity": 1,
+                "unitName": "Monat",
+                "unitPrice": {
+                    "currency": "EUR",
+                    "netAmount": price,
+                    "taxRatePercentage": 19.0,
+                },
+            })
+
+    if not items:
+        items.append({
+            "type": "custom",
+            "name": "Unterhaltsreinigung (monatlich)",
+            "quantity": 1,
+            "unitName": "Monat",
+            "unitPrice": {"currency": "EUR", "netAmount": 0.0, "taxRatePercentage": 19.0},
+        })
+
+    return items
 
 
 # ---------------------------------------------------------------------------
