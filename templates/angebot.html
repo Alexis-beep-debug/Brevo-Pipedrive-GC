@@ -117,9 +117,9 @@
   }
   .card-body { padding: 16px; }
 
-  /* ── Grid helpers ── */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  /* ── Grid helpers (table-based for WeasyPrint compat) ── */
+  .grid-2, .grid-3 { display: table; width: 100%; table-layout: fixed; border-spacing: 20px 0; margin-left: -20px; }
+  .grid-2 > *, .grid-3 > * { display: table-cell; vertical-align: top; }
 
   /* ── Table ── */
   .calc-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
@@ -172,19 +172,27 @@
     border: 1px solid #dce3e8;
     border-radius: 6px;
     padding: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     border-left: 4px solid var(--accent);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
   }
   .problem-card h3 {
-    grid-column: 1 / -1;
     color: var(--primary);
     font-size: 11pt;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
   }
+  .problem-columns {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .problem-col {
+    display: table-cell;
+    width: 50%;
+    vertical-align: top;
+    padding-right: 16px;
+  }
+  .problem-col:last-child { padding-right: 0; padding-left: 16px; }
   .problem-label {
     font-size: 7.5pt;
     text-transform: uppercase;
@@ -485,13 +493,15 @@
     {% for item in probleme_loesungen %}
     <div class="problem-card">
       <h3>{{ item.kategorie }}</h3>
-      <div>
-        <div class="problem-label challenge">Herausforderung:</div>
-        <div class="problem-text">{{ item.herausforderung }}</div>
-      </div>
-      <div>
-        <div class="problem-label solution">Der G+C-Ansatz:</div>
-        <div class="solution-text">{{ item.loesung }}</div>
+      <div class="problem-columns">
+        <div class="problem-col">
+          <div class="problem-label challenge">Herausforderung:</div>
+          <div class="problem-text">{{ item.herausforderung }}</div>
+        </div>
+        <div class="problem-col">
+          <div class="problem-label solution">Der G+C-Ansatz:</div>
+          <div class="solution-text">{{ item.loesung }}</div>
+        </div>
       </div>
     </div>
     {% endfor %}
