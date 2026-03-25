@@ -181,6 +181,7 @@ async def create_quote(
             f"{_BASE}/quotations",
             headers=_headers(),
             json=payload,
+            params={"finalize": "true"},
         )
         if r.status_code >= 400:
             print(f"Lexoffice quote error {r.status_code}: {r.text}", flush=True)
