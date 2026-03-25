@@ -151,9 +151,9 @@ async def generate_proposal(request: Request) -> dict:
 
     # Log the raw payload for debugging
     import json
-    logger.info("=== RAW WEBHOOK PAYLOAD ===")
-    logger.info(json.dumps(payload, indent=2, default=str, ensure_ascii=False))
-    logger.info("=== END PAYLOAD ===")
+    print("=== RAW WEBHOOK PAYLOAD ===", flush=True)
+    print(json.dumps(payload, indent=2, default=str, ensure_ascii=False), flush=True)
+    print("=== END PAYLOAD ===", flush=True)
 
     # Map Superforms fields to readable names
     template_data = proposal_generator.map_superforms_to_template(payload)
