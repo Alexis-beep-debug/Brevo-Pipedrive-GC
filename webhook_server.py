@@ -149,6 +149,12 @@ async def generate_proposal(request: Request) -> dict:
     """
     payload: dict[str, Any] = await request.json()
 
+    # Log the raw payload for debugging
+    import json
+    logger.info("=== RAW WEBHOOK PAYLOAD ===")
+    logger.info(json.dumps(payload, indent=2, default=str, ensure_ascii=False))
+    logger.info("=== END PAYLOAD ===")
+
     # Map Superforms fields to readable names
     template_data = proposal_generator.map_superforms_to_template(payload)
     company = template_data["firma_name"] or "Unbekannt"
