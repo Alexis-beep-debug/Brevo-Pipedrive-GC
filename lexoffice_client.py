@@ -201,14 +201,34 @@ async def render_document(document_id: str, doc_type: str = "quotations") -> Non
 async def download_pdf(document_id: str) -> bytes:
     """Download a rendered Lexoffice document as PDF bytes."""
     async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
-        # First render the document
+        # Render the document (returns documentFileId)
         render_r = await client.get(
             f"{_BASE}/quotations/{document_id}/document",
             headers=_headers(),
         )
-        render_r.raise_for_status()
-        render_data = render_r.json()
-        document_file_id = render_data.get("documentFileId", "")
+        # If 406, try the /render endpoint instead
+        if render_r.status_code == 406:
+            print(f"Lexoffice: /document returned 406, trying direct file endpoint", flush=True)
+            # Try getting the voucher to find the file ID
+            voucher_r = await client.get(
+                f"{_BASE}/quotations/{document_id}",
+                headers=_headers(),
+            )
+            voucher_r.raise_for_status()
+            voucher_data = voucher_r.json()
+            print(f"Lexoffice voucher data keys: {list(voucher_data.keys())}", flush=True)
+
+            # Check if there's a files array or documentFileId
+            files = voucher_data.get("files", {})
+            document_file_id = files.get("documentFileId", "")
+            if not document_file_id:
+                # Try the voucherStatus - maybe needs to be pursued first
+                print(f"Lexoffice voucher status: {voucher_data.get('voucherStatus', 'unknown')}", flush=True)
+                raise ValueError(f"Cannot get PDF - quote may need to be finalized in Lexoffice first. Status: {voucher_data.get('voucherStatus', 'unknown')}")
+        else:
+            render_r.raise_for_status()
+            render_data = render_r.json()
+            document_file_id = render_data.get("documentFileId", "")
 
         if not document_file_id:
             raise ValueError("No documentFileId returned from Lexoffice")
