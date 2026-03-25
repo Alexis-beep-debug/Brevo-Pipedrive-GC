@@ -143,29 +143,38 @@ async def create_quote(
     introduction: str = "",
     line_items: list[dict] | None = None,
     currency: str = "EUR",
+    net_amount: float = 0.0,
 ) -> dict:
     """Create a Lexoffice quote (Angebot) for a contact."""
+    from datetime import datetime, timezone
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%dT00:00:00.000+01:00")
+    expiry = datetime.now(timezone.utc).strftime("%Y-%m-%dT00:00:00.000+01:00")
+
     items = line_items or [
         {
             "type": "custom",
-            "name": title,
+            "name": "Unterhaltsreinigung (monatlich)",
             "quantity": 1,
-            "unitName": "Stück",
-            "unitPrice": {"currency": currency, "netAmount": 0.0, "taxRatePercentage": 19.0},
+            "unitName": "Monat",
+            "unitPrice": {
+                "currency": currency,
+                "netAmount": net_amount,
+                "taxRatePercentage": 19.0,
+            },
         }
     ]
 
     payload = {
-        "voucherDate": None,  # Lexoffice sets to today if None
+        "voucherDate": today,
+        "expirationDate": expiry,
         "address": {"contactId": contact_id},
         "lineItems": items,
         "totalPrice": {"currency": currency},
         "taxConditions": {"taxType": "net"},
         "title": title,
         "introduction": introduction,
+        "remark": "Dieses Angebot wurde automatisch erstellt.",
     }
-    # Remove None values
-    payload = {k: v for k, v in payload.items() if v is not None}
 
     async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
         r = await client.post(
@@ -173,6 +182,8 @@ async def create_quote(
             headers=_headers(),
             json=payload,
         )
+        if r.status_code >= 400:
+            print(f"Lexoffice quote error {r.status_code}: {r.text}", flush=True)
         r.raise_for_status()
         return r.json()
 
