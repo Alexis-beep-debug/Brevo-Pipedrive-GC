@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PIPEDRIVE_API_KEY = os.environ["PIPEDRIVE_API_KEY"]
-BREVO_API_KEY = os.environ["BREVO_API_KEY"]
+PIPEDRIVE_API_KEY = os.environ.get("PIPEDRIVE_API_KEY") or os.environ.get("PIPEDRIVE_API_TOKEN", "")
+BREVO_API_KEY = os.environ.get("BREVO_API_KEY", "")
 LEXOFFICE_API_KEY = os.environ.get("LEXOFFICE_API_KEY", "")
 
 PIPEDRIVE_BASE = "https://api.pipedrive.com/v1"
